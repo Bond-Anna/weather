@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import 'antd/dist/antd.css'
 import { Menu, Dropdown, Space } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
-import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
+import 'utils/i18n'
 import Globe from '../Globe'
+import citys from '../store/citys'
 import styles from './styles.module.scss'
-import classNames from 'classnames'
 
 const LangDrop = () => {
-  const [label, setLabel] = useState('EN')
+  const [langLabel, setLabel] = useState(() => {
+    return JSON.parse(localStorage.getItem('lang-label')) || 'EN'
+  })
   const [arrow, setArrow] = useState(false)
+  const { i18n } = useTranslation()
+  const changeLanguage = lang => {
+    i18n.changeLanguage(lang)
+  }
 
   const menu = (
     <Menu
@@ -17,17 +24,32 @@ const LangDrop = () => {
         {
           label: 'EN',
           key: '0',
-          onClick: event => setLabel(event.domEvent.currentTarget.innerText),
+          onClick: event => {
+            setLabel(event.domEvent.currentTarget.innerText)
+            changeLanguage('en')
+            citys.setLanguage(false)
+            citys.setLabel(event.domEvent.currentTarget.innerText)
+          },
         },
         {
           label: 'UA',
           key: '1',
-          onClick: event => setLabel(event.domEvent.currentTarget.innerText),
+          onClick: event => {
+            setLabel(event.domEvent.currentTarget.innerText)
+            changeLanguage('ua')
+            citys.setLanguage(false)
+            citys.setLabel(event.domEvent.currentTarget.innerText)
+          },
         },
         {
           label: 'HE',
           key: '3',
-          onClick: event => setLabel(event.domEvent.currentTarget.innerText),
+          onClick: event => {
+            setLabel(event.domEvent.currentTarget.innerText)
+            changeLanguage('he')
+            citys.setLanguage(true)
+            citys.setLabel(event.domEvent.currentTarget.innerText)
+          },
         },
       ]}
     />
@@ -44,7 +66,7 @@ const LangDrop = () => {
       <span onClick={e => e.preventDefault()}>
         <Space>
           <Globe />
-          {label}
+          {langLabel}
           <div className={arrow ? styles.arrowUp : styles.arrowDown}>
             <DownOutlined />
           </div>

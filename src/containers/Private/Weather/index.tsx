@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react'
 import { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import Autocomplete from 'react-google-autocomplete'
+import cn from 'classnames'
 import citys from './store/citys'
 import Card from './Card/Card'
 import LangDrop from './LangDrop'
@@ -25,10 +26,12 @@ const Weather: FC = observer(() => {
     }
     // @ts-ignore
     citys.setCity(JSON.parse(localStorage.getItem('city-data')) || [])
+    // @ts-ignore
+    citys.setLanguage(JSON.parse(localStorage.getItem('is-he')) || false)
   }, [])
 
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, { [styles.direction]: citys.isHe })}>
       <div className={styles.dropdown}>
         <LangDrop />
       </div>

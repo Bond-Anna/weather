@@ -24,6 +24,10 @@
   background: #f1f2ff;
 }
 
+.direction {
+  direction: rtl;
+}
+
 .topInfo {
   display: flex;
   justify-content: space-between;
@@ -47,6 +51,12 @@
     width: 50px;
   }
 }
+
+.weatherHe {
+  right: auto;
+  left: 31px;
+}
+
 .date {
   @include mixin.textStyle($family: $weatherFont, $weight: 300, $size: 18px, $height: 26px);
   margin: 0;
@@ -81,10 +91,20 @@
       border-right: 1px solid #707070;
       color: #8d8d8d;
     }
+    .celsiusHe {
+      padding-left: 10px;
+      border-left: 1px solid #707070;
+      padding-right: 0;
+      border-right: none;
+    }
     .fahrenheit {
       padding: 0;
       padding-left: 10px;
       color: #8d8d8d;
+    }
+    .fahrenheitHe {
+      padding-left: 0;
+      padding-right: 10px;
     }
     .active {
       color: #000;
@@ -122,4 +142,8 @@
   stroke: #c5c5c5;
   width: 7px;
   height: 7px;
+}
+.iconCrossHe {
+  right: auto;
+  left: 8px;
 }

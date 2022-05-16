@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import cn from 'classnames'
 import * as dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
+import { useTranslation } from 'react-i18next'
+import 'utils/i18n'
 import citys from '../store/citys'
 import Cross from 'sources/common/cross'
 import MyResponsiveLine from '../Graph'
 import styles from './styles.module.scss'
 
 export default function Card({ city, list }: { city: Object; list: any }) {
+  const { t } = useTranslation()
   const [isCel, setIsCel] = useState(() => list[0].main.flag_isCelsius)
 
   const date = dayjs.unix(list[0].dt).format('ddd, D MMM, HH:mm')
@@ -47,6 +50,7 @@ export default function Card({ city, list }: { city: Object; list: any }) {
       className={cn(styles.card, {
         [styles.worm]: list[0].main.tempC > 0,
         [styles.cold]: list[0].main.tempC <= 0,
+        [styles.direction]: citys.isHe,
       })}
     >
       <div className={styles.topInfo}>
@@ -55,7 +59,7 @@ export default function Card({ city, list }: { city: Object; list: any }) {
           {city.name}, {city.country}
         </div>
       </div>
-      <div className={styles.weather}>
+      <div className={cn(styles.weather, { [styles.weatherHe]: citys.isHe })}>
         <img src={link} alt="icon" />
         {list[0].weather[0].main}
       </div>
@@ -77,11 +81,22 @@ export default function Card({ city, list }: { city: Object; list: any }) {
               {isCel ? `${list[0].main.tempC}` : `${list[0].main.tempF}`}
             </span>
             <div className={styles.units}>
-              <button className={cn(styles.celsius, { [styles.active]: isCel })} onClick={onBtnC}>
+              <button
+                className={cn(
+                  styles.celsius,
+                  { [styles.active]: isCel },
+                  { [styles.celsiusHe]: citys.isHe }
+                )}
+                onClick={onBtnC}
+              >
                 °C
               </button>
               <button
-                className={cn(styles.fahrenheit, { [styles.active]: !isCel })}
+                className={cn(
+                  styles.fahrenheit,
+                  { [styles.active]: !isCel },
+                  { [styles.fahrenheitHe]: citys.isHe }
+                )}
                 onClick={onBtnF}
               >
                 °F
@@ -89,13 +104,13 @@ export default function Card({ city, list }: { city: Object; list: any }) {
             </div>
           </div>
           <p className={styles.feels}>
-            Feels like:
+            {t('feels_like')}:{' '}
             <span>{isCel ? `${list[0].main.feelsC} °C` : `${list[0].main.feelsF} °F`}</span>
           </p>
         </div>
         <ul className={styles.bottomInfoPrecipitation}>
           <li>
-            Wind:{' '}
+            {t('wind')}:{' '}
             <span
               className={cn(styles.worm, {
                 [styles.cold]: list[0].main.tempC <= 0,
@@ -105,7 +120,7 @@ export default function Card({ city, list }: { city: Object; list: any }) {
             </span>
           </li>
           <li>
-            Humidity:{' '}
+            {t('humidity')}:{' '}
             <span
               className={cn(styles.worm, {
                 [styles.cold]: list[0].main.tempC <= 0,
@@ -115,7 +130,7 @@ export default function Card({ city, list }: { city: Object; list: any }) {
             </span>
           </li>
           <li>
-            Pressure:{' '}
+            {t('pressure')}:{' '}
             <span
               className={cn(styles.worm, {
                 [styles.cold]: list[0].main.tempC <= 0,
@@ -126,8 +141,11 @@ export default function Card({ city, list }: { city: Object; list: any }) {
           </li>
         </ul>
       </div>
-      {/* @ts-ignore */}
-      <Cross trigger={() => citys.delCity(city.id)} className={styles.iconCross} />
+      <Cross
+        // @ts-ignore
+        trigger={() => citys.delCity(city.id)}
+        className={cn(styles.iconCross, { [styles.iconCrossHe]: citys.isHe })}
+      />
     </div>
   )
 }

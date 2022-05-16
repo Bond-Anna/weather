@@ -3,6 +3,8 @@ import { api } from 'config'
 
 class Citys {
   citysData: Object[] = []
+  isHe: any = false
+  langLabel: string = ''
 
   constructor() {
     makeAutoObservable(this)
@@ -89,6 +91,15 @@ class Citys {
     // @ts-ignore
     this.citysData = this.citysData.filter(it => it.city.id !== id)
     localStorage.setItem('city-data', JSON.stringify(this.citysData))
+  }
+
+  setLanguage(lang: boolean) {
+    this.isHe = lang
+    localStorage.setItem('is-he', JSON.stringify(this.isHe))
+  }
+  setLabel(label: any) {
+    this.langLabel = label
+    localStorage.setItem('lang-label', JSON.stringify(this.langLabel))
   }
 }
 export default new Citys()
