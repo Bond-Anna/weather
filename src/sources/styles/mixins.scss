@@ -11,45 +11,45 @@ $horizontalPosMob: (
 
 $mobMdDOWN: (
   max-width: 393px,
-  max-height: 744px
+  max-height: 744px,
 );
 
 $mobLgDOWN: (
   max-width: 414px,
-  max-height: 715px
+  max-height: 715px,
 );
 
 $mobMediumDOWN: (
   max-width: 1792px,
-  max-height: 828px
+  max-height: 828px,
 );
 
 $mobXlDOWN: (
   max-width: 2340px,
-  max-height: 1080px
+  max-height: 1080px,
 );
-
 
 $desktopMdDOWN: (
   max-width: 1920px,
-  max-height: 932px
+  max-height: 932px,
 );
 
 $desktopLgDOWN: (
   max-width: 1920px,
-  max-height: 1080px
+  max-height: 1080px,
 );
 
 $desktop2KLgDOWN: (
   max-width: 2560px,
-  max-height: 1600px
+  max-height: 1600px,
 );
 
-@mixin textStyle($size: 1rem, $weight: 400, $family: var(--fontType)) {
+@mixin textStyle($family: $textFont, $weight: 400, $size: 1rem, $height: 100%) {
   font-family: $family;
   font-style: normal;
   font-weight: $weight;
   font-size: $size;
+  line-height: $height;
 }
 
 @mixin flex($align: flex-start, $justify: flex-start) {
@@ -70,8 +70,9 @@ $desktop2KLgDOWN: (
 
 @mixin position-absolute-center {
   position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 @mixin modal-background {

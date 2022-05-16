@@ -1,0 +1,125 @@
+@use 'sources/styles/variables.scss' as *;
+@use 'sources/styles/mixins.scss' as mixin;
+
+.card {
+  @include mixin.textStyle(
+    $family: $weatherFont,
+    $weight: 400,
+    $size: $defaultFontSize,
+    $height: 20px
+  );
+  position: relative;
+  width: 350px;
+  height: 257px;
+  padding: 10px 15px;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 5px;
+}
+
+.worm {
+  background: #fffaf1;
+}
+
+.cold {
+  background: #f1f2ff;
+}
+
+.topInfo {
+  display: flex;
+  justify-content: space-between;
+
+  .location {
+    @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 16px, $height: 23px);
+    margin: 0;
+  }
+}
+.weather {
+  position: absolute;
+  top: -3px;
+  right: 31px;
+  @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 13px, $height: 19px);
+  display: flex;
+  align-items: center;
+  color: #c5c5c5;
+
+  img {
+    height: 50px;
+    width: 50px;
+  }
+}
+.date {
+  @include mixin.textStyle($family: $weatherFont, $weight: 300, $size: 18px, $height: 26px);
+  margin: 0;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+.graph {
+  height: 85px;
+}
+
+.bottomInfo {
+  @include mixin.flex($align: flex-end, $justify: space-between);
+  margin-top: 10px;
+
+  &Temperature {
+    display: flex;
+
+    .degrees {
+      @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 44px, $height: 64px);
+      color: #000;
+    }
+    .units {
+      @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 22px, $height: 32px);
+      display: flex;
+      align-items: flex-start;
+      margin-left: 5px;
+    }
+    .celsius {
+      padding: 0;
+      padding-right: 10px;
+      border-right: 1px solid #707070;
+      color: #8d8d8d;
+    }
+    .fahrenheit {
+      padding: 0;
+      padding-left: 10px;
+      color: #8d8d8d;
+    }
+    .active {
+      color: #000;
+    }
+  }
+  .feels {
+    @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 13px, $height: 19px);
+    color: #c5c5c5;
+  }
+
+  &Precipitation {
+    @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 12px, $height: 18px);
+    color: #000;
+
+    li {
+      margin-top: 5px;
+    }
+
+    .worm {
+      font-weight: 600;
+      color: #ffa25b;
+    }
+    .cold {
+      font-weight: 600;
+      color: #459de9;
+    }
+  }
+}
+
+.iconCross {
+  cursor: pointer;
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  stroke: #c5c5c5;
+  width: 7px;
+  height: 7px;
+}

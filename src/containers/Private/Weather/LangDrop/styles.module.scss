@@ -1,0 +1,25 @@
+.arrowUp {
+  transform: rotate(180deg);
+  transition: transform 0.3s;
+}
+
+.arrowDown {
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+}
+
+:global {
+  .ant-space {
+    cursor: pointer;
+    width: 81px;
+    color: #afafaf;
+  }
+  .ant-space-align-center {
+    justify-content: flex-end;
+  }
+  .ant-dropdown-menu-item,
+  .ant-dropdown-menu-submenu-title {
+    padding: 5px;
+    line-height: 20px;
+  }
+}

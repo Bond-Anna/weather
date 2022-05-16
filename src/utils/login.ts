@@ -1,9 +1,9 @@
 import { api } from 'config'
- 
+
 const TOKEN_KEY = 'jwt'
 
 export const login = (value: string) => {
-  api.defaults.headers.Authorization = `Bearer ${value}`
+  // api.defaults.headers.Authorization = `Bearer ${value}`
   localStorage.setItem(TOKEN_KEY, value)
 }
 

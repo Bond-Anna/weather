@@ -1,12 +1,5 @@
 @import './variables.scss';
 
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-}
-
 @font-face {
   font-family: 'Segoe UI';
   src: url('../fonts/SegoeUI-Light.eot');
@@ -70,4 +63,69 @@ body,
     url('../fonts/SegoeUI-Italic.ttf') format('truetype');
   font-weight: normal;
   font-style: italic;
+}
+@font-face {
+  font-family: 'Jost', sans-serif;
+  src: url('../fonts/Jost-Light.eot');
+  src: local('Jost Light'), local('Jost-Light'),
+    url('../fonts/Jost-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Jost-Light.woff') format('woff'),
+    url('../fonts/Jost-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Jost', sans-serif;
+  src: url('../fonts/Jost-Regular.eot');
+  src: local('Jost Regular'), local('Jost-Regular'),
+    url('../fonts/Jost-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Jost-Regular.woff') format('woff'),
+    url('../fonts/Jost-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
+}
+
+input {
+  outline: none;
 }

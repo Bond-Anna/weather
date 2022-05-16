@@ -7,5 +7,6 @@ import App from './containers/App'
 import 'normalize.css'
 import 'antd/dist/antd.css'
 import 'sources/styles/styles.scss'
+import './utils/i18n'
 
 ReactDOM.render(<App />, document.getElementById('root'))

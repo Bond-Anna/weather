@@ -1,0 +1,87 @@
+@use 'sources/styles/variables.scss' as *;
+@use 'sources/styles/mixins.scss' as mixin;
+
+.container {
+  max-width: 1970px;
+  padding: 25px;
+  background-color: #fff;
+}
+.dropdown {
+  width: 81px;
+  margin-left: auto;
+}
+.input {
+  @include mixin.textStyle(
+    $family: $weatherFont,
+    $weight: 400,
+    $size: $defaultFontSize,
+    $height: 20px
+  );
+  display: flex;
+  justify-content: center;
+  margin: 120px 0;
+}
+
+.test {
+  width: 400px;
+  height: 300px;
+}
+
+:global {
+  .pac-target-input {
+    width: 569px;
+    padding: 10px;
+    margin-right: 10px;
+    color: #464646;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+  }
+}
+
+:global {
+  button.ant-btn {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+  }
+}
+
+:global {
+  .hdpi.pac-logo:after {
+    display: none;
+  }
+  .pac-container {
+    border-top: none;
+    border-radius: 0px;
+    margin-top: 10px;
+    box-shadow: 0px 3px 6px #00000029;
+  }
+  .hdpi .pac-icon {
+    display: none;
+  }
+  .pac-item {
+    @include mixin.textStyle($family: $weatherFont, $weight: 400, $size: 14px, $height: 20px);
+    padding: 3px 0;
+    border-top: none;
+  }
+  .pac-item:hover {
+    background: #f2f2f2;
+  }
+  .pac-item-query {
+    @include mixin.textStyle(
+      $family: $weatherFont,
+      $weight: 400,
+      $size: $defaultFontSize,
+      $height: 20px
+    );
+    padding: 0 5px;
+  }
+}
+.cardList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  width: fit-content;
+}
