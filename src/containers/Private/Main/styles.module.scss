@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 100px;
+  .headerName {
+    margin: 10px auto;
+  }
+  .body {
+    white-space: inherit;
+  }
+}
