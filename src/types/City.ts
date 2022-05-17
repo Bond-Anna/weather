@@ -5,6 +5,10 @@ export interface Weather {
   list?: ListEntity[] | null
   city: City
 }
+export interface CityData {
+  list?: ListEntity[] | null
+  city: City
+}
 export interface ListEntity {
   dt: number
   main: Main
@@ -26,6 +30,11 @@ export interface Main {
   grnd_level: number
   humidity: number
   temp_kf: number
+  flag_isCelsius?: boolean
+  tempC?: number
+  tempF?: number
+  feelsC?: number
+  feelsF?: number
 }
 export interface WeatherEntity {
   id: number

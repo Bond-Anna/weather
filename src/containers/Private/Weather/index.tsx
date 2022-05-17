@@ -16,7 +16,6 @@ const Weather: FC = observer(() => {
 
   const getWeather = (name: string): void => {
     citys.getCityWeather(name)
-    // @ts-ignore
     setAutocomplete('')
   }
 
@@ -27,8 +26,13 @@ const Weather: FC = observer(() => {
         citys.myGeo({ latitude, longitude })
       })
     }
-    // @ts-ignore
-    citys.setCity(JSON.parse(localStorage.getItem('city-data')) || [])
+    // citys.setCity(JSON.parse(localStorage.getItem('city-data')) || [])
+    const storageDate = localStorage.getItem('city-data')
+    if (storageDate !== null) {
+      citys.setCity(JSON.parse(storageDate))
+    } else {
+      citys.setCity([])
+    }
     // @ts-ignore
     citys.setLanguage(JSON.parse(localStorage.getItem('is-he')) || false)
   }, [])
@@ -44,19 +48,15 @@ const Weather: FC = observer(() => {
           // @ts-ignore
           value={autocomplete}
           apiKey="AIzaSyA9bslaj5Bl5nLuQQXe8rr_PkhDvvZqzMs"
-          onPlaceSelected={(place, autocomplete) => {
-            // @ts-ignore
-            setAutocomplete(autocomplete)
+          onPlaceSelected={place => {
             getWeather(place.address_components[0].long_name)
           }}
-          onChange={(e: any) => setAutocomplete(e.target?.value)}
+          onChange={(e: any) => setAutocomplete(e.target.value)}
         />
       </div>
       <div className={styles.cardList}>
-        {/* @ts-ignore */}
         {citys.citysData.map(({ city, list }) => (
-          // @ts-ignore
-          <Card key={city.id} city={city} list={list} />
+          <Card key={city.id} city={city} list={list!} />
         ))}
       </div>
     </div>
