@@ -1,59 +1,93 @@
-import React, { useEffect } from 'react'
+import { FC, useEffect } from 'react'
+import { useState } from 'react'
 import { useStore } from 'stores'
-import { Comment, Avatar } from 'antd'
-import { DislikeOutlined, LikeOutlined } from '@ant-design/icons'
-
-// style
+import { observer } from 'mobx-react-lite'
+import Autocomplete from 'react-google-autocomplete'
+import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
+import 'utils/i18n'
+import Card from './Card/Card'
+import LangDrop from './LangDrop'
 import styles from './styles.module.scss'
-import dayjs from 'dayjs'
-import { useObserver } from 'mobx-react'
 
-const Main: React.FC = () => {
-  const { usersStore } = useStore()
+const Weather: FC = observer(() => {
+  const { t } = useTranslation()
+  const [autocomplete, setAutocomplete] = useState<string>('')
+  const { cityStore } = useStore()
 
-  useEffect(() => {
-    usersStore.getData()
-  }, [])
-
-  const actions = [
-    <span>
-      <span>{<LikeOutlined />}</span>
-      <span className="comment-action">{0}</span>
-    </span>,
-    <span>
-      <span>{<DislikeOutlined />}</span>
-      <span className="comment-action">{0}</span>
-    </span>,
-    <span key="comment-basic-reply-to">Reply to</span>,
-  ]
-
-  const randomColor = () => {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16)
+  const getWeather = (name: string): void => {
+    cityStore.getCityWeather(name)
+    setAutocomplete('')
   }
 
-  return useObserver(() => (
-    <main className={styles.container}>
-      <h1 className={styles.headerName}>Comments</h1>
-      <div>
-        {usersStore.comments?.map(comment => (
-          <Comment
-            key={comment.id}
-            actions={actions}
-            author={<div>{comment.email}</div>}
-            avatar={
-              <Avatar
-                style={{ backgroundColor: `${randomColor()}` }}
-                src="https://joeschmoe.io/api/v1/random"
-                alt="Avatar"
-              />
-            }
-            content={<p className={styles.body}>{comment.body}</p>}
-            datetime={<span>{dayjs().format('MMMM D, YYYY')}</span>}
-          />
+  useEffect(() => {
+    const myCoord = localStorage.getItem('myCoord')
+    if (myCoord !== null) {
+      const coord = JSON.parse(myCoord)
+
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords
+        if (
+          Math.trunc(coord.latitude) !== Math.trunc(latitude) ||
+          Math.trunc(coord.longitude) !== Math.trunc(longitude)
+        ) {
+          cityStore.myGeo({ latitude: latitude, longitude: longitude })
+        }
+        return
+      })
+    } else {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords
+        cityStore.myGeo({ latitude, longitude })
+      })
+    }
+
+    const getSavedWeather = async () => {
+      const citiesNames = localStorage.getItem('cities-names')
+      if (citiesNames) {
+        const parsedCitiesNames: string[] = JSON.parse(citiesNames)
+        await parsedCitiesNames.map(name => cityStore.getCityWeather(name))
+      }
+    }
+
+    const storageLang = localStorage.getItem('is-he')
+    if (storageLang !== null) {
+      cityStore.setLanguage(JSON.parse(storageLang) || false)
+    }
+    Promise.all([getSavedWeather()]).then(() => console.log('3333333'))
+  }, [])
+
+  useEffect(() => {
+    if (cityStore.isHe === true) {
+      document.querySelector('body')!.style.direction = 'rtl'
+    } else {
+      document.querySelector('body')!.style.direction = 'ltr'
+    }
+  }, [cityStore.isHe])
+
+  return (
+    <div className={cn(styles.container)}>
+      <div className={styles.dropdown}>
+        <LangDrop />
+      </div>
+      <div className={styles.input}>
+        <Autocomplete
+          placeholder={`${t('placeholder')}..`}
+          // @ts-ignore
+          value={autocomplete}
+          apiKey="AIzaSyA9bslaj5Bl5nLuQQXe8rr_PkhDvvZqzMs"
+          onPlaceSelected={place => {
+            getWeather(place.address_components[0].long_name)
+          }}
+          onChange={(e: any) => setAutocomplete(e.target.value)}
+        />
+      </div>
+      <div className={styles.cardList}>
+        {cityStore.citiesData.map(({ city, list }) => (
+          <Card key={city.id} city={city} list={list!} />
         ))}
       </div>
-    </main>
-  ))
-}
-
-export default Main
+    </div>
+  )
+})
+export default Weather

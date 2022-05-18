@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useStore } from 'stores'
 import 'antd/dist/antd.css'
 import { Menu, Dropdown, Space } from 'antd'
 import { DownOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import 'utils/i18n'
-import Globe from '../Globe'
-import citys from '../store/citys'
+import { globe } from '../Globe.js'
 import styles from './styles.module.scss'
 
 const LangDrop = () => {
+  const { cityStore } = useStore()
+
   const [langLabel, setLabel] = useState(() => {
     return JSON.parse(localStorage.getItem('lang-label')) || 'EN'
   })
@@ -26,9 +28,10 @@ const LangDrop = () => {
           key: '0',
           onClick: event => {
             setLabel(event.domEvent.currentTarget.innerText)
+            console.log(event.domEvent.currentTarget.innerText, '121212')
             changeLanguage('en')
-            citys.setLanguage(false)
-            citys.setLabel(event.domEvent.currentTarget.innerText)
+            cityStore.setLanguage(false)
+            cityStore.setLabel(event.domEvent.currentTarget.innerText)
           },
         },
         {
@@ -37,8 +40,8 @@ const LangDrop = () => {
           onClick: event => {
             setLabel(event.domEvent.currentTarget.innerText)
             changeLanguage('ua')
-            citys.setLanguage(false)
-            citys.setLabel(event.domEvent.currentTarget.innerText)
+            cityStore.setLanguage(false)
+            cityStore.setLabel(event.domEvent.currentTarget.innerText)
           },
         },
         {
@@ -47,8 +50,8 @@ const LangDrop = () => {
           onClick: event => {
             setLabel(event.domEvent.currentTarget.innerText)
             changeLanguage('he')
-            citys.setLanguage(true)
-            citys.setLabel(event.domEvent.currentTarget.innerText)
+            cityStore.setLanguage(true)
+            cityStore.setLabel(event.domEvent.currentTarget.innerText)
           },
         },
       ]}
@@ -63,9 +66,9 @@ const LangDrop = () => {
       overlay={menu}
       trigger={['click']}
     >
-      <span onClick={e => e.preventDefault()}>
+      <span>
         <Space>
-          <Globe />
+          <span>{globe}</span>
           {langLabel}
           <div className={arrow ? styles.arrowUp : styles.arrowDown}>
             <DownOutlined />

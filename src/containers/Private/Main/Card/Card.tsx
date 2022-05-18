@@ -1,10 +1,10 @@
 import { useState } from 'react'
+import { useStore } from 'stores'
 import cn from 'classnames'
 import * as dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
 import { useTranslation } from 'react-i18next'
 import 'utils/i18n'
-import citys from '../store/citys'
 import Cross from 'sources/common/cross'
 import MyResponsiveLine from '../Graph'
 import { ListEntity, City } from 'types/City'
@@ -18,6 +18,7 @@ type Result = {
 export default function Card({ city, list }: { city: City; list: ListEntity[] }) {
   const { t } = useTranslation()
   const [isCel, setIsCel] = useState(() => list[0].main.flag_isCelsius)
+  const { cityStore } = useStore()
 
   const date = dayjs.unix(list[0].dt).format('ddd, D MMM, HH:mm')
   const iconS = list[0].weather && list[0].weather[0].icon
@@ -30,19 +31,19 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
     return { x: dt, y: el.main.flag_isCelsius ? el.main.tempC : el.main.tempF }
   })
 
-  const arreyY = result.map(res => res.y)
-  const maxY = Math.max(...arreyY)
-  const minY = Math.min(...arreyY)
+  const arrayY = result.map(res => res.y)
+  const maxY = Math.max(...arrayY)
+  const minY = Math.min(...arrayY)
 
   graphData[0].data = result
 
   const onBtnC = () => {
-    citys.editCity({ isCel: true, id: city.id })
+    cityStore.editCity({ isCel: true, id: city.id })
     setIsCel(true)
   }
 
   const onBtnF = () => {
-    citys.editCity({ isCel: false, id: city.id })
+    cityStore.editCity({ isCel: false, id: city.id })
     setIsCel(false)
   }
 
@@ -51,7 +52,7 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
       className={cn(styles.card, {
         [styles.worm]: list[0].main.tempC! > 0,
         [styles.cold]: list[0].main.tempC! <= 0,
-        [styles.direction]: citys.isHe,
+        [styles.direction]: cityStore.isHe,
       })}
     >
       <div className={styles.topInfo}>
@@ -59,7 +60,7 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
           {city.name}, {city.country}
         </div>
       </div>
-      <div className={cn(styles.weather, { [styles.weatherHe]: citys.isHe })}>
+      <div className={cn(styles.weather, { [styles.weatherHe]: cityStore.isHe })}>
         <img src={link} alt="icon" />
         {list[0].weather && list[0].weather[0].main}
       </div>
@@ -84,7 +85,7 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
                 className={cn(
                   styles.celsius,
                   { [styles.active]: isCel },
-                  { [styles.celsiusHe]: citys.isHe }
+                  { [styles.celsiusHe]: cityStore.isHe }
                 )}
                 onClick={onBtnC}
               >
@@ -94,7 +95,7 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
                 className={cn(
                   styles.fahrenheit,
                   { [styles.active]: !isCel },
-                  { [styles.fahrenheitHe]: citys.isHe }
+                  { [styles.fahrenheitHe]: cityStore.isHe }
                 )}
                 onClick={onBtnF}
               >
@@ -141,8 +142,8 @@ export default function Card({ city, list }: { city: City; list: ListEntity[] })
         </ul>
       </div>
       <Cross
-        trigger={() => citys.delCity(city.id)}
-        className={cn(styles.iconCross, { [styles.iconCrossHe]: citys.isHe })}
+        trigger={() => cityStore.delCity(city.id, city.name)}
+        className={cn(styles.iconCross, { [styles.iconCrossHe]: cityStore.isHe })}
       />
     </div>
   )
