@@ -60,7 +60,6 @@ export class CityStore {
   async getCityWeather(name: string | string[]): Promise<any> {
     try {
       const res = await api.get(`?q=${name}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
-      console.log(res, 'res')
 
       const citiesNames = localStorage.getItem('cities-names')
       if (citiesNames) {

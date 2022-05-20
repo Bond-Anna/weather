@@ -6,13 +6,17 @@ import Autocomplete from 'react-google-autocomplete'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import 'utils/i18n'
+// components
 import Card from './Card/Card'
 import LangDrop from './LangDrop'
+import Forms from './Forms'
+// styles
 import styles from './styles.module.scss'
 
 const Weather: FC = observer(() => {
   const { t } = useTranslation()
   const [autocomplete, setAutocomplete] = useState<string>('')
+  const [isForm, setIsForm] = useState<boolean>(false)
   const { cityStore } = useStore()
 
   const getWeather = (name: string): void => {
@@ -54,7 +58,7 @@ const Weather: FC = observer(() => {
     if (storageLang !== null) {
       cityStore.setLanguage(JSON.parse(storageLang) || false)
     }
-    Promise.all([getSavedWeather()]).then(() => console.log('3333333'))
+    Promise.all([getSavedWeather()])
   }, [])
 
   useEffect(() => {
@@ -65,8 +69,16 @@ const Weather: FC = observer(() => {
     }
   }, [cityStore.isHe])
 
+  const handlerFormsBtn = () => {
+    setIsForm(!isForm)
+  }
+
   return (
     <div className={cn(styles.container)}>
+      <button onClick={handlerFormsBtn}>Forms</button>
+      <div className={isForm ? styles.formsShown : styles.forms}>
+        <Forms />
+      </div>
       <div className={styles.dropdown}>
         <LangDrop />
       </div>

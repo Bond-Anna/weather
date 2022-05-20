@@ -1,0 +1,29 @@
+@use 'sources/styles/variables.scss' as *;
+@use 'sources/styles/mixins.scss' as mixin;
+
+.form {
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  @include mixin.textStyle($family: $font1, $weight: 600, $size: 18px, $height: 20px);
+  padding-top: 15px;
+}
+.inputArea {
+  padding-top: 10px;
+  margin-left: 50px;
+}
+.star {
+  color: tomato;
+}
+.error {
+  @include mixin.textStyle($family: $font1, $weight: 400, $size: 12px, $height: 20px);
+  color: tomato;
+}
+:global {
+  .ant-picker {
+    border: 1px solid;
+  }
+}
